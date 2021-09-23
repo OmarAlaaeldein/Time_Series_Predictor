@@ -5,7 +5,7 @@ f=np.load("cases.npy")
 x=np.array(np.arange(0,len(f),1))
 r=[]
 c,t=[],0
-order=2 # modify this as you see fit
+order=int(input()) # modify this as you see fit
 plt.axvline(x=0,color='k'),plt.axhline(y=0,color='k'),plt.grid()
 #Least Square Fitting Model
 A=np.zeros(shape=(len(x),order+1))
