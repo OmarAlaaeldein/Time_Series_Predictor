@@ -10,6 +10,7 @@ class TimeSeries:
         plt.figure()
         plt.axvline(x=0,color='k'),plt.axhline(y=0,color='k'),plt.grid()
         self.cofs=[]
+        self.predicted_pairs=np.zeros(len(self.x))
 
     def model_fit(self,order: int):     #Least Square Fitting Model
         """Perform LSF for a given array with the corresponding order of regrsssion
@@ -25,6 +26,7 @@ class TimeSeries:
             d=A[i,:].dot(a)
             self.c.append(d)
             plt.scatter(i,sum(self.c),color='red')
+            self.predicted_pairs[i]=d
         plt.plot(self.x,np.cumsum(self.data),label="True Values")
         plt.legend()
         plt.show()
@@ -34,6 +36,15 @@ class TimeSeries:
         """
         for i,j in enumerate(list(self.cofs)):
             print('a{}= {}'.format(i,j))
+        return self.cofs
+    def R2(self,):
+        avg=np.mean(self.data)
+        sst=np.sum((np.cumsum(self.data-avg))**2)
+        sse=np.sum((np.cumsum(self.data)-np.cumsum(self.predicted_pairs))**2)
+        print("R2={}".format((sst-sse)/sst))
+        return (sst-sse)/sst
+
 a=TimeSeries(r"cases.npy")
-a.model_fit(3) # modify this as you see fit
-a.get_coefficients() 
+a.model_fit(1) # modify this as you see fit, actully setting this with 40 aka len(self.x) will produce a perfect R2 score since it is an interpolation of the whole dataset
+a.get_coefficients()
+a.R2()
