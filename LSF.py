@@ -1,5 +1,5 @@
 import numpy as np
-from numpy.linalg import inv, solve
+from numpy.linalg import solve
 import matplotlib.pyplot as plt
 class TimeSeries:
 
@@ -46,7 +46,7 @@ class TimeSeries:
         for i,j in enumerate(list(self.cofs)):
             print('a{}= {}'.format(i,j))
         return self.cofs
-    def R2(self,):
+    def R2(self):
         avg=np.mean(self.data)
         sst=np.sum((np.cumsum(self.data-avg))**2)
         sse=np.sum((np.cumsum(self.data)-np.cumsum(self.predicted_pairs))**2)
